@@ -1,0 +1,527 @@
+/**
+ vim: set ts=4 sw=4 sts=4 et:
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * @author     Qualiteam Software info@qtmsoft.com
+ * @category   Cdev
+ * @package    Cdev_XPaymentsConnector
+ * @copyright  (c) 2010-2016 Qualiteam software Ltd <info@x-cart.com>. All rights reserved
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+
+iframe.xp-iframe {
+    text-align: center;
+    height: 0px;
+    overflow: hidden;
+    border: 0px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+#xpayment-iframe-block {
+    padding-bottom: 10px;
+    border-left: 1px solid #d9dde3;
+    border-right: 1px solid #d9dde3;
+}
+
+#checkout-payment-method-load #xpayment-iframe-block {
+    padding-bottom: 10px;
+    border: 0px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.b-loader-wrap {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+}
+
+#ajax-loader {
+    background: url("images/loader.gif") 50% 50% no-repeat;
+    height: 213px;
+    left: 50%;
+    margin-bottom: 0;
+    margin-left: -245px;
+    margin-right: 0;
+    margin-top: -106px;
+    position: fixed;
+    text-align: center;
+    top: 50%;
+    width: 400px;
+    z-index: 100000;
+}
+
+#paymentstep-ajax-loader {
+    background: url("images/loader.gif") 50% 50% no-repeat;
+    height: 55px;
+    margin-bottom: 0;
+    margin-right: 0;
+    text-align: center;
+    z-index: 100000;
+    display: none;
+}
+
+#payment_form_xpayments {
+    height: 0px;
+}
+
+#payment_form_xpayments > li {
+    padding-left: 20px;
+}
+
+.input-radio.x-payment-card {
+    margin-right: 3px;
+}
+#select-all-cards{
+    color: darkblue;
+}
+
+#unselect-all-cards{
+    color: darkblue;
+}
+#iframe-save-card-switcher {
+    padding-left: 15%;
+}
+
+/* payment cards styles */
+
+#payment_form_savedcards .input-box {
+    display: block;
+    width: 295px;
+    position: relative;
+}
+
+#payment_form_savedcards > li {
+    padding-left: 20px;
+}
+
+#payment_form_savedcards.adminhtml-payment-form > li {
+    padding-left: 0px;
+    margin-left: -2px;
+}
+
+/* prepaid payments styles*/
+
+#payment_form_prepaidpayments .input-box {
+    display: block;
+    width: 170px;
+    position: relative;
+}
+
+#payment_form_prepaidpayments > li {
+    padding-left: 20px;
+}
+
+#payment_form_prepaidpayments.adminhtml-payment-form > li {
+    padding-left: 0px;
+    margin-left: -2px;
+}
+
+#payment_form_prepaidpayments .balance {
+    margin-left: 20px;
+}
+
+
+
+.x-payment-card-logo.mc {
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-color: rgba(0, 0, 0, 0);
+    background-image: url("images/card_types.png");
+    background-origin: padding-box;
+    background-repeat: no-repeat;
+
+    background-position: 2px -1px;
+    background-size:40px auto;
+    width: 40px;
+    height: 20px;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+.x-payment-card-logo.visa {
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-color: rgba(0, 0, 0, 0);
+    background-image: url("images/card_types.png");
+    background-origin: padding-box;
+    background-repeat: no-repeat;
+
+    background-position: 2px -21px;
+    background-size:40px auto;
+    width: 40px;
+    height: 20px;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+.x-payment-card-logo.jcb {
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-color: rgba(0, 0, 0, 0);
+    background-image: url("images/card_types.png");
+    background-origin: padding-box;
+    background-repeat: no-repeat;
+
+    background-position: 6px -41px;
+    background-size:40px auto;
+    width: 40px;
+    height: 20px;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+.x-payment-card-logo.amex {
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-color: rgba(0, 0, 0, 0);
+    background-image: url("images/card_types.png");
+    background-origin: padding-box;
+    background-repeat: no-repeat;
+
+    background-position: 6px -61px;
+    background-size: 40px auto;
+    width: 40px;
+    height: 20px;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+.x-payment-card-logo.dc {
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-color: rgba(0, 0, 0, 0);
+    background-image: url("images/card_types.png");
+    background-origin: padding-box;
+    background-repeat: no-repeat;
+
+    background-position: 2px -81px;
+    background-size: 40px auto;
+    width: 40px;
+    height: 20px;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+.x-payment-card-logo.dicl {
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-color: rgba(0, 0, 0, 0);
+    background-image: url("images/card_types.png");
+    background-origin: padding-box;
+    background-repeat: no-repeat;
+
+    background-position: 2px -101px;
+    background-size:40px auto;
+    width: 40px;
+    height: 20px;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+.x-payment-card-logo.sw {
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-color: rgba(0, 0, 0, 0);
+    background-image: url("images/card_types.png");
+    background-origin: padding-box;
+    background-repeat: no-repeat;
+
+    background-position: 2px -121px;
+    background-size:40px auto;
+    width: 40px;
+    height: 20px;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+.x-payment-card-logo.cup {
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-color: rgba(0, 0, 0, 0);
+    background-image: url("images/card_types.png");
+    background-origin: padding-box;
+    background-repeat: no-repeat;
+
+    background-position: 4px -141px;
+    background-size:40px auto;
+    width: 40px;
+    height: 20px;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+.x-payment-card-logo.bc {
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-color: rgba(0, 0, 0, 0);
+    background-image: url("images/card_types.png");
+    background-origin: padding-box;
+    background-repeat: no-repeat;
+
+    background-position: 2px -161px;
+    background-size:40px auto;
+    width: 40px;
+    height: 20px;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+/* list*/
+
+.x-payment-card-logo-list.mc{
+    margin-left:5px;
+    background-image: url("images/card_types.png");
+    background-color: rgba(0, 0, 0, 0);
+    background-origin: padding-box;
+    background-repeat: no-repeat;
+    background-size:45px auto;
+    background-position: 2px 1px;
+    display: inline-block;
+    width: 40px;
+    height: 22px;
+
+}
+
+.x-payment-card-logo-list.visa{
+    margin-left:5px;
+    background-image: url("images/card_types.png");
+    background-color: rgba(0, 0, 0, 0);
+    background-origin: padding-box;
+    background-repeat: no-repeat;
+    background-size:45px auto;
+    background-position: 2px -21px;
+    display: inline-block;
+    width: 40px;
+    height: 22px;
+
+}
+
+.x-payment-card-logo-list.jcb {
+    margin-left:5px;
+    background-image: url("images/card_types.png");
+    background-color: rgba(0, 0, 0, 0);
+    background-origin: padding-box;
+    background-repeat: no-repeat;
+    background-size:45px auto;
+    background-position: 6px -42px;
+    display: inline-block;
+    width: 40px;
+    height: 22px;
+
+}
+
+.x-payment-card-logo-list.amex {
+    margin-left:5px;
+    background-image: url("images/card_types.png");
+    background-color: rgba(0, 0, 0, 0);
+    background-origin: padding-box;
+    background-repeat: no-repeat;
+    background-size:45px auto;
+    background-position: 8px -66px;
+    display: inline-block;
+    width: 40px;
+    height: 22px;
+
+}
+.x-payment-card-logo-list.dc {
+    margin-left:5px;
+    background-image: url("images/card_types.png");
+    background-color: rgba(0, 0, 0, 0);
+    background-origin: padding-box;
+    background-repeat: no-repeat;
+    background-size:45px auto;
+    background-position: 2px -90px;
+    display: inline-block;
+    width: 40px;
+    height: 22px;
+
+}
+.x-payment-card-logo-list.dicl {
+    margin-left:5px;
+    background-image: url("images/card_types.png");
+    background-color: rgba(0, 0, 0, 0);
+    background-origin: padding-box;
+    background-repeat: no-repeat;
+    background-size:45px auto;
+    background-position: 2px -112px;
+    display: inline-block;
+    width: 40px;
+    height: 22px;
+
+}
+.x-payment-card-logo-list.sw {
+    margin-left:5px;
+    background-image: url("images/card_types.png");
+    background-color: rgba(0, 0, 0, 0);
+    background-origin: padding-box;
+    background-repeat: no-repeat;
+    background-size:45px auto;
+    background-position: 2px -134px;
+    display: inline-block;
+    width: 40px;
+    height: 22px;
+
+}
+.x-payment-card-logo-list.cup {
+    margin-left:5px;
+    background-image: url("images/card_types.png");
+    background-color: rgba(0, 0, 0, 0);
+    background-origin: padding-box;
+    background-repeat: no-repeat;
+    background-size:45px auto;
+    background-position: 4px -157px;
+    display: inline-block;
+    width: 40px;
+    height: 22px;
+
+}
+.x-payment-card-logo-list.bc {
+    margin-left:5px;
+    background-image: url("images/card_types.png");
+    background-color: rgba(0, 0, 0, 0);
+    background-origin: padding-box;
+    background-repeat: no-repeat;
+    background-size:45px auto;
+    background-position: 2px -179px;
+    display: inline-block;
+    width: 40px;
+    height: 22px;
+
+}
+
+/* admin cards list */
+
+#customer_edit_tab_usercards_table td{
+    text-align: center;
+}
+
+/* end(payment cards styles) */
+
+#wait-message{
+    margin:1%;
+}
+
+/*add new credit card block style*/
+
+
+#new-card-block #default-billing-addres {
+    overflow: hidden;
+    width: 45%;
+    padding: 30px 10% 10px;
+    box-sizing: border-box;
+}
+
+#new-card-block #default-billing-addres li {
+    list-style-type: none;
+}
+
+#new-card-block #xpayment-iframe-block {
+    background-color: rgb(251, 250, 246);
+    border: 1px solid rgb(196, 193, 188);
+    padding: 30px;
+}
+#new-card-block #xpayment-iframe-block:after {
+    display: block;
+    clear: both;
+    content: '';
+}
+#new-card-block #xpayment-iframe-block .iframe-block {
+    float: left;
+    width: 55%;
+}
+
+@media screen and (max-width: 768px){
+    #new-card-block #xpayment-iframe-block .iframe-block {
+        float: none;
+        width: 100%;
+    }
+    #new-card-block #default-billing-addres {
+        width: 100%;
+    }
+}
+
+#new-card-block #xpayment-iframe-block #create-card-button{
+    clear: both;
+    float: right;
+    margin: 25px;
+}
+
+/* xp transaction form */
+.xp_fast_transactions input {
+    max-width: 170px;
+    margin: 5px;
+}
+
+
+.transaction-accordion {
+    float: right;
+}
+
+/*end(xp transaction form)*/
+
+#recurring-detail-block ul {
+    list-style-type:disc;
+}
+
+#recurring-detail-block li {
+    margin-left: 15px;
+}
+
+/* checkout cart page */
+#shopping-cart-totals-table tr td:last-child {
+    white-space: nowrap
+}
+/* end (checkout cart page) */
+
+/* admin order view buttons */
+.fraud-button {
+    background-image: url("images/btn_bg_fraud.png");
+}
+/* end (admin order view buttons) */
+
+/* settings for "X-Payments Connector Settings" part */
+#xpaymentsconnector_settings .comment {
+    float: right;
+    width: 40%;
+    margin-right: 2%;
+    box-sizing: border-box;
+}
+@media screen and (max-width: 1330px) {
+    #xpaymentsconnector_settings .comment {
+        float: none;
+        width: 100%;
+        margin-bottom: 20px;
+    }
+    #xpaymentsconnector_settings .comment iframe {
+        width: 560px;
+        height: 315px;
+        margin: 0 auto;
+    }
+}
+#xpaymentsconnector_settings .comment li {
+    list-style: none;
+}
+
+#xpaymentsconnector_settings .comment a {
+    color: #EA7400 !important;
+}
+/* end(settings for "X-Payments Connector Settings" part) */
+
+
+
